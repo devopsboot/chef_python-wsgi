@@ -8,18 +8,19 @@ package 'httpd-devel' do
   action :install
 end
 
-python_virtualenv "/opt/python_virtualenv" do
-  interpreter "/opt/python/bin/python2.7"
+python_virtualenv node['python-wsgi']['virtualenv'] do
+  interpreter "#{node['python']['prefix_dir']}/bin/python2.7"
   action :create
 end
 
-ENV['CPPFLAGS'] = '-I/opt/python/include/python2.7'
+ENV['CPPFLAGS'] = "-I#{node['python']['prefix_dir']}/include/python2.7"
+ENV['LDFLAGS'] = "-L#{node['python']['prefix_dir']}/lib/"
 
-link '/usr/lib/libpython2.7.a' do
-  to '/opt/python/lib/libpython2.7.so'
-  link_type :symbolic
-end
+# link '/usr/lib/libpython2.7.a' do
+#   to '/opt/python/lib/libpython2.7.so'
+#   link_type :symbolic
+# end
 
 python_pip "mod_wsgi" do
-  virtualenv "/opt/python_virtualenv"
+  virtualenv node['python-wsgi']['virtualenv']
 end

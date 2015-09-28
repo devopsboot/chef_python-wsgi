@@ -12,5 +12,7 @@ override['python']['make_options'] = %W{install}
 override['python']['pip_location'] = "#{node['python']['prefix_dir']}/bin/pip"
 override['python']['virtualenv_location'] = "#{node['python']['prefix_dir']}/bin/virtualenv"
 
+default['python-wsgi']['virtualenv'] = '/opt/python_virtualenv'
+
 
 
